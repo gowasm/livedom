@@ -123,10 +123,10 @@ const (
 type Event interface {
 	Bubbles() bool
 	Cancelable() bool
-	CurrentTarget() Element
+	CurrentTarget() *Element
 	DefaultPrevented() bool
 	EventPhase() int
-	Target() Element
+	Target() *Element
 	Timestamp() time.Time
 	Type() string
 	PreventDefault()
@@ -162,8 +162,8 @@ func (ev *BasicEvent) Cancelable() bool {
 	return ev.Object.Get("cancelable").Bool()
 }
 
-func (ev *BasicEvent) CurrentTarget() Element {
-	return wrapElement(ev.Object.Get("currentTarget"))
+func (ev *BasicEvent) CurrentTarget() *Element {
+	return NewElement(ev.Object.Get("currentTarget"))
 }
 
 func (ev *BasicEvent) DefaultPrevented() bool {
@@ -174,8 +174,8 @@ func (ev *BasicEvent) EventPhase() int {
 	return ev.Object.Get("eventPhase").Int()
 }
 
-func (ev *BasicEvent) Target() Element {
-	return wrapElement(ev.Object.Get("target"))
+func (ev *BasicEvent) Target() *Element {
+	return NewElement(ev.Object.Get("target"))
 }
 
 func (ev *BasicEvent) Timestamp() time.Time {
@@ -233,8 +233,8 @@ type ErrorEvent struct{ *BasicEvent }
 
 type FocusEvent struct{ *BasicEvent }
 
-func (ev *FocusEvent) RelatedTarget() Element {
-	return wrapElement(ev.Object.Get("relatedTarget"))
+func (ev *FocusEvent) RelatedTarget() *Element {
+	return NewElement(ev.Object.Get("relatedTarget"))
 }
 
 type GamepadEvent struct{ *BasicEvent }
@@ -290,8 +290,8 @@ type MouseEvent struct {
 	ShiftKey  bool `js:"shiftKey"`
 }
 
-func (ev *MouseEvent) RelatedTarget() Element {
-	return wrapElement(ev.Object.Get("relatedTarget"))
+func (ev *MouseEvent) RelatedTarget() *Element {
+	return NewElement(ev.Object.Get("relatedTarget"))
 }
 
 func (ev *MouseEvent) ModifierState(mod string) bool {
@@ -382,8 +382,8 @@ type Touch struct {
 // of that element or even been removed from the document.
 //
 // Reference: https://developer.mozilla.org/en-US/docs/Web/API/Touch/target.
-func (t *Touch) Target() Element {
-	return wrapElement(t.Get("target"))
+func (t *Touch) Target() *Element {
+	return NewElement(t.Get("target"))
 }
 
 type TrackEvent struct{ *BasicEvent }

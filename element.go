@@ -1,9 +1,15 @@
+// +build js,wasm
+
 package livedom
 
 import (
 	"fmt"
 	"syscall/js"
 )
+
+func GetWindow() Window {
+	return &window{js.Global()}
+}
 
 type Element struct {
 	js.Value
